@@ -2,6 +2,7 @@
 """Основной модуль игры Лабиринт сокровищ."""
 
 import constants
+import utils
 
 
 def main():
@@ -22,18 +23,28 @@ def main():
     print(f"Доступные направления: {', '.join(constants.DIRECTIONS)}")
     print(f"Доступные команды: {', '.join(constants.COMMANDS)}")
     
-    # Информация о стартовой комнате
+    # СТАРЫЙ ВЫВОД (сохраняем)
     start_room = constants.ROOMS[game_state['current_room']]
     print(f"\n📍 {game_state['current_room'].title()}:")
     print(f"   {start_room['description']}")
     print(f"   Выходы: {list(start_room['exits'].keys())}")
     print(f"   Предметы: {start_room['items']}")
     
+    # НОВЫЙ ВЫВОД (добавляем новую функцию)
+    print("\n" + "="*50)
+    print("📖 ПОДРОБНОЕ ОПИСАНИЕ КОМНАТЫ:")
+    utils.describe_current_room(game_state)
+    print("="*50)
+    
     # Информация о состоянии игрока
     print("\n👤 Состояние игрока:")
     print(f"   Инвентарь: {game_state['player_inventory']}")
     print(f"   Шагов сделано: {game_state['steps_taken']}")
     print(f"   Игра завершена: {'Да' if game_state['game_over'] else 'Нет'}")
+    
+    # Демонстрация вспомогательных функций
+    print(f"\n🧭 Доступные направления: {utils.get_available_directions(game_state)}")
+    print(f"🎯 Есть загадка: {'Да' if utils.room_has_puzzle(game_state) else 'Нет'}")
     
     print(f"\n🎯 Условие победы: найти {constants.WIN_CONDITION}!")
     print(f"🏰 Всего комнат в лабиринте: {len(constants.ROOMS)}")
