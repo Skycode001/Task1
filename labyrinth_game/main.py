@@ -26,6 +26,7 @@ def main():
     print("  look - осмотреться")
     print("  inventory - показать инвентарь")
     print("  go <направление> - пойти в направлении")
+    print("  take <предмет> - подобрать предмет")
     print("  quit - выйти из игры")
     print("  help - показать справку")
     
@@ -44,7 +45,12 @@ def main():
             direction = command[3:].strip()
             player_actions.move_player(game_state, direction)
         
-        # Временная обработка других команд
+        # Обработка команды взятия предмета
+        elif command.startswith('take '):
+            item_name = command[5:].strip()
+            player_actions.take_item(game_state, item_name)
+        
+        # Обработка других команд
         elif command == 'inventory':
             player_actions.show_inventory(game_state)
         elif command == 'look':
@@ -54,6 +60,7 @@ def main():
             print("  look - осмотреться")
             print("  inventory - показать инвентарь")
             print("  go <направление> - пойти в направлении")
+            print("  take <предмет> - подобрать предмет")
             print("  quit - выйти из игры")
             print("  help - показать эту справку")
         else:

@@ -62,3 +62,26 @@ def move_player(game_state, direction):
         utils.describe_current_room(game_state)
     else:
         print("Нельзя пойти в этом направлении.")
+
+
+def take_item(game_state, item_name):
+    """
+    Позволяет игроку подобрать предмет из комнаты.
+    
+    Args:
+        game_state (dict): Словарь с состоянием игры
+        item_name (str): Название предмета для взятия
+    """
+    current_room = game_state['current_room']
+    room_data = constants.ROOMS[current_room]
+    
+    # Проверяем, есть ли предмет в комнате
+    if item_name in room_data['items']:
+        # Добавляем предмет в инвентарь игрока
+        game_state['player_inventory'].append(item_name)
+        # Удаляем предмет из списка предметов комнаты
+        room_data['items'].remove(item_name)
+        # Печатаем сообщение о том, что игрок подобрал предмет
+        print("Вы подняли:", item_name)
+    else:
+        print("Такого предмета здесь нет.")
