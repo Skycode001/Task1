@@ -93,17 +93,56 @@ def solve_puzzle(game_state):
     user_answer = player_actions.get_input("Ваш ответ: ")
     
     # Сравните ответ пользователя с правильным ответом
-    if user_answer == correct_answer:
+    # Добавьте в логику проверки ответа возможность принимать альтернативные варианты
+    correct_answers = [correct_answer]
+    
+    # Например, для ответа '10' принимать также 'десять'
+    if correct_answer == '10':
+        correct_answers.extend(['десять', '10', 'ten'])
+    elif correct_answer == '7':
+        correct_answers.extend(['семь', '7', 'seven'])
+    elif correct_answer == 'шаг шаг шаг':
+        correct_answers.extend(['шаг шаг шаг', 'step step step'])
+    elif correct_answer == 'резонанс':
+        correct_answers.extend(['резонанс', 'resonance'])
+    elif correct_answer == 'дыхание':
+        correct_answers.extend(['дыхание', 'breath'])
+    
+    if user_answer in correct_answers:
         # Если ответ верный:
         print("✅ Верно! Загадка решена.")
         # Уберите загадку из комнаты, чтобы ее нельзя было решить дважды
         room_data['puzzle'] = None
-        # Добавьте игроку награду
-        game_state['player_inventory'].append('reward')
-        print("Вы получаете награду: reward!")
+        
+        # Проверьте, что сделали награду за решение загадки зависимой от комнаты
+        if current_room_name == 'hall':
+            game_state['player_inventory'].append('silver_amulet')
+            print("Вы получаете награду: silver_amulet!")
+        elif current_room_name == 'trap_room':
+            game_state['player_inventory'].append('trap_manual')
+            print("Вы получаете награду: trap_manual!")
+        elif current_room_name == 'library':
+            game_state['player_inventory'].append('wisdom_scroll')
+            print("Вы получаете награду: wisdom_scroll!")
+        elif current_room_name == 'garden':
+            game_state['player_inventory'].append('enchanted_seed')
+            print("Вы получаете награду: enchanted_seed!")
+        elif current_room_name == 'fountain':
+            game_state['player_inventory'].append('rainbow_pearl')
+            print("Вы получаете награду: rainbow_pearl!")
+        else:
+            # Награда по умолчанию
+            game_state['player_inventory'].append('reward')
+            print("Вы получаете награду: reward!")
+    
     else:
         # Если ответ неверный, сообщите об этом игроку
         print("❌ Неверно. Попробуйте снова.")
+        
+        # Если игрок дает неверный ответ в trap_room, вызовите функцию trigger_trap()
+        if current_room_name == 'trap_room':
+            print("Неверный ответ активирует защитный механизм!")
+            trigger_trap(game_state)
 
 
 def attempt_open_treasure(game_state):
