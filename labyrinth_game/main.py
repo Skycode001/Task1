@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Основной модуль игры Лабиринт сокровищ."""
 
-import constants
 import player_actions
 import utils
 
@@ -31,8 +30,8 @@ def main():
     
     # Основной игровой цикл
     while not game_state['game_over']:
-        # Считывание команды от пользователя
-        command = input("\nВведите команду: ").strip().lower()
+        # Считывание команды от пользователя с помощью новой функции
+        command = player_actions.get_input("\nВведите команду: ")
         
         # Обработка команды quit для выхода
         if command == 'quit':

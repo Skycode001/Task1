@@ -19,3 +19,20 @@ def show_inventory(game_state):
     else:
         print("   Инвентарь пуст")
         print("   Используйте команду 'take', чтобы подобрать предметы")
+
+
+def get_input(prompt="> "):
+    """
+    Запрашивает ввод от пользователя с обработкой ошибок.
+    
+    Args:
+        prompt (str): Текст приглашения для ввода
+        
+    Returns:
+        str: Введенная пользователем строка или "quit" при ошибке
+    """
+    try:
+        return input(prompt).strip().lower()
+    except (KeyboardInterrupt, EOFError):
+        print("\nВыход из игры.")
+        return "quit"
