@@ -114,7 +114,18 @@ ROOMS = {
 
 # Дополнительные константы
 DIRECTIONS = ['north', 'south', 'east', 'west', 'up', 'down']
-COMMANDS = ['go', 'look', 'take', 'inventory', 'use', 'solve', 'quit', 'help']
+
+COMMANDS = {
+    "go <direction>": "перейти в направлении (north/south/east/west)",
+    "look": "осмотреть текущую комнату",
+    "take <item>": "поднять предмет",
+    "use <item>": "использовать предмет из инвентаря",
+    "inventory": "показать инвентарь",
+    "solve": "попытаться решить загадку в комнате",
+    "quit": "выйти из игры",
+    "help": "показать это сообщение"
+}
+
 GAME_TITLE = "Лабиринт Сокровищ"
 START_ROOM = 'entrance'
 WIN_CONDITION = 'treasure_chest'

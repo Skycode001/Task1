@@ -202,14 +202,10 @@ def show_help():
     Показывает список доступных команд.
     """
     print("\nДоступные команды:")
-    print("  go <direction>  - перейти в направлении (north/south/east/west)")
-    print("  look            - осмотреть текущую комнату")
-    print("  take <item>     - поднять предмет")
-    print("  use <item>      - использовать предмет из инвентаря")
-    print("  inventory       - показать инвентарь")
-    print("  solve           - попытаться решить загадку в комнате")
-    print("  quit            - выйти из игры")
-    print("  help            - показать это сообщение")
+    # Выводим в консоль с помощью цикла и f-строки
+    for command, description in constants.COMMANDS.items():
+        # Используем позиционирование слева и дополняем пробелами в количестве 16 штук
+        print(f"  {command:<16} - {description}")
 
 
 def pseudo_random(seed, modulo):
