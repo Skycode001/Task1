@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Модуль с функциями для действий игрока."""
+"""Модуль с функции для действий игрока."""
 
 import constants
 import utils
@@ -54,22 +54,51 @@ def move_player(game_state, direction):
     
     # Проверяем, существует ли выход в этом направлении
     if direction in room_data['exits']:
-        # Обновляем текущую комнату
-        game_state['current_room'] = room_data['exits'][direction]
-        # Увеличиваем шаг на единицу
-        game_state['steps_taken'] += 1
-        # Выводим описание новой комнаты
-        utils.describe_current_room(game_state)
+        target_room = room_data['exits'][direction]
         
-        # ИНТЕГРАЦИЯ ЛОВУШЕК: с вероятностью 15% при любом перемещении
-        trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
-        if trap_chance < 15:  # 15% шанс срабатывания ловушки
-            print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
-            game_state['traps_triggered'] += 1
-            utils.trigger_trap(game_state)
+        # 🔒 ПРОВЕРКА ДОСТУПА К TREASURE_ROOM
+        # Если пользователь переходит в treasure_room, проверяем наличие ключа
+        if target_room == 'treasure_room':
+            if 'rusty_key' in game_state['player_inventory']:
+                # Если ключ есть, вывести сообщение и перевести в treasure_room
+                message = (
+                    "Вы используете найденный ключ, "
+                    "чтобы открыть путь в комнату сокровищ."
+                )
+                print(message)
+                game_state['current_room'] = target_room
+                game_state['steps_taken'] += 1
+                utils.describe_current_room(game_state)
+                
+                # 🔥 ИНТЕГРАЦИЯ ЛОВУШЕК
+                trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
+                if trap_chance < 15:
+                    print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
+                    game_state['traps_triggered'] += 1
+                    utils.trigger_trap(game_state)
+                
+                # 🎲 ИНТЕГРАЦИЯ СЛУЧАЙНЫХ СОБЫТИЙ
+                utils.random_event(game_state)
+            else:
+                # В противном случае вывести сообщение
+                print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+                return
         
-        # ИНТЕГРАЦИЯ СЛУЧАЙНЫХ СОБЫТИЙ: после каждого успешного перемещения
-        utils.random_event(game_state)
+        else:
+            # Обычное перемещение в другие комнаты
+            game_state['current_room'] = target_room
+            game_state['steps_taken'] += 1
+            utils.describe_current_room(game_state)
+            
+            # 🔥 ИНТЕГРАЦИЯ ЛОВУШЕК
+            trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
+            if trap_chance < 15:
+                print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
+                game_state['traps_triggered'] += 1
+                utils.trigger_trap(game_state)
+            
+            # 🎲 ИНТЕГРАЦИЯ СЛУЧАЙНЫХ СОБЫТИЙ
+            utils.random_event(game_state)
     
     else:
         print("Нельзя пойти в этом направлении.")
