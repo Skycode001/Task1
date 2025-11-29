@@ -38,6 +38,12 @@ def process_command(game_state, command):
             else:
                 print("Укажите предмет: take <предмет>")
         
+        case 'use':
+            if argument:
+                player_actions.use_item(game_state, argument)
+            else:
+                print("Укажите предмет: use <предмет>")
+        
         case 'inventory':
             player_actions.show_inventory(game_state)
         
@@ -71,6 +77,7 @@ def main():
     print("  inventory - показать инвентарь")
     print("  go <направление> - пойти в направлении")
     print("  take <предмет> - подобрать предмет")
+    print("  use <предмет> - использовать предмет")
     print("  quit - выйти из игры")
     print("  help - показать справку")
     
