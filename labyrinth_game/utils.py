@@ -215,7 +215,9 @@ def trigger_trap(game_state):
         # Если инвентарь не пуст, используйте функцию pseudo_random()
         # чтобы выбрать случайный индекс предмета в инвентаре
         item_count = len(game_state['player_inventory'])
-        random_index = pseudo_random(game_state['steps_taken'], item_count)
+        # 🆕 Используем комбинацию шагов и счетчика ловушек для случайности
+        trap_seed = game_state['steps_taken'] + game_state['traps_triggered']
+        random_index = pseudo_random(trap_seed, item_count)
         
         # Удалите этот предмет
         lost_item = game_state['player_inventory'].pop(random_index)
@@ -225,7 +227,9 @@ def trigger_trap(game_state):
     else:
         # Если инвентарь пуст, игрок получает "урон"
         # Используйте pseudo_random(), чтобы сгенерировать число (например, от 0 до 9)
-        damage_roll = pseudo_random(game_state['steps_taken'], 10)
+        # 🆕 Используем комбинацию для большей случайности
+        trap_seed = game_state['steps_taken'] + game_state['traps_triggered']
+        damage_roll = pseudo_random(trap_seed, 10)
         
         # Если число меньше определенного порога (3), игра заканчивается
         if damage_roll < 3:

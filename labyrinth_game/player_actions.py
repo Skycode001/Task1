@@ -65,6 +65,7 @@ def move_player(game_state, direction):
         trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
         if trap_chance < 15:  # 15% шанс срабатывания ловушки
             print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
+            game_state['traps_triggered'] += 1  # 🆕 Увеличиваем счетчик
             utils.trigger_trap(game_state)
     
     else:
