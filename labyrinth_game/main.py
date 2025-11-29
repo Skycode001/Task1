@@ -55,6 +55,9 @@ def process_command(game_state, command):
         case 'inventory':
             player_actions.show_inventory(game_state)
         
+        case 'help':
+            utils.show_help()
+        
         case 'quit' | 'exit':
             print("Спасибо за игру! До свидания!")
             game_state['game_over'] = True
