@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Модуль с вспомогательными функциями для игры."""
 
+import math
+
 import constants
 import player_actions
 
@@ -169,3 +171,30 @@ def show_help():
     print("  solve           - попытаться решить загадку в комнате")
     print("  quit            - выйти из игры")
     print("  help            - показать это сообщение")
+
+
+def pseudo_random(seed, modulo):
+    """
+    Генерирует псевдослучайное число в диапазоне [0, modulo).
+    
+    Args:
+        seed (int): Целое число для инициализации генератора
+        modulo (int): Целое число для определения диапазона результата
+        
+    Returns:
+        int: Целое число в диапазоне [0, modulo)
+    """
+    # Возьмите синус от seed, умноженного на большое число с дробной частью
+    sin_value = math.sin(seed * 12.9898)
+    
+    # Результат умножьте на другое большое число с дробной частью
+    multiplied_value = sin_value * 43758.5453
+    
+    # От полученного числа нам нужна только его дробная часть
+    fractional_part = multiplied_value - math.floor(multiplied_value)
+    
+    # Умножьте эту дробную часть на modulo
+    scaled_value = fractional_part * modulo
+    
+    # Отбросьте дробную часть и верните целое число
+    return math.floor(scaled_value)
