@@ -32,6 +32,11 @@ def process_command(game_state, command):
             else:
                 print("Укажите направление: go <направление>")
         
+        # Реализуйте возможность движения по односложным командам
+        # (north, south и т.д.) без слова go
+        case 'north' | 'south' | 'east' | 'west':
+            player_actions.move_player(game_state, action)
+        
         case 'take':
             if argument:
                 player_actions.take_item(game_state, argument)
@@ -45,7 +50,8 @@ def process_command(game_state, command):
                 print("Укажите предмет: use <предмет>")
         
         case 'solve':
-            # Если игрок в комнате с сокровищами, вызываем attempt_open_treasure
+            # Если игрок находится в treasure_room и вводит команду solve, 
+            # вместо solve_puzzle() должна вызываться attempt_open_treasure()
             if game_state['current_room'] == 'treasure_room':
                 utils.attempt_open_treasure(game_state)
             else:
@@ -77,7 +83,7 @@ def main():
         'current_room': 'entrance',  # Текущая комната
         'game_over': False,  # Значение окончания игры
         'steps_taken': 0,  # Количество шагов
-        'traps_triggered': 0  # 🆕 Счетчик срабатываний ловушек
+        'traps_triggered': 0  # Счетчик срабатываний ловушек
     }
     
     # Описание стартовой комнаты
@@ -88,6 +94,7 @@ def main():
     print("  look - осмотреться")
     print("  inventory - показать инвентарь")
     print("  go <направление> - пойти в направлении")
+    print("  north/south/east/west - пойти в направлении (без go)")
     print("  take <предмет> - подобрать предмет")
     print("  use <предмет> - использовать предмет")
     print("  solve - решить загадку/открыть сундук")
