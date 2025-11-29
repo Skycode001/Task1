@@ -102,3 +102,55 @@ def solve_puzzle(game_state):
     else:
         # Если ответ неверный, сообщите об этом игроку
         print("❌ Неверно. Попробуйте снова.")
+
+
+def attempt_open_treasure(game_state):
+    """
+    Реализует логику победы - открытие сундука с сокровищами.
+    
+    Args:
+        game_state (dict): Словарь с состоянием игры
+    """
+    # Проверка ключа: Проверьте, есть ли у игрока в инвентаре 'treasure_key'
+    if 'treasure_key' in game_state['player_inventory']:
+        # Если ключ есть, выведите сообщение об успешном открытии замка
+        print("Вы применяете ключ, и замок щёлкает. Сундук открыт!")
+        # Удалите 'treasure_chest' из предметов комнаты
+        current_room = constants.ROOMS[game_state['current_room']]
+        if 'treasure_chest' in current_room['items']:
+            current_room['items'].remove('treasure_chest')
+        # Сообщите игроку о победе
+        print("В сундуке сокровище! Вы победили!")
+        # Установите глобальную переменную game_over в True
+        game_state['game_over'] = True
+    else:
+        # Если ключа в инвентаре нет, сундук все еще можно открыть кодом
+        # Спросите у игрока, хочет ли он попробовать ввести код
+        prompt = "Сундук заперт. Попробовать ввести код? (да/нет): "
+        response = player_actions.get_input(prompt)
+        
+        if response == 'да':
+            # Если игрок отвечает "да", запросите у него код
+            code = player_actions.get_input("Введите код: ")
+            # Сравните введенный код с правильным ответом из puzzle для текущей комнаты
+            current_room = constants.ROOMS[game_state['current_room']]
+            if current_room['puzzle'] is not None:
+                _, correct_code = current_room['puzzle']
+                if code == correct_code:
+                    # Если код верный, выведите сообщение об успехе
+                    print("✅ Код верный! Замок щёлкает.")
+                    # Удалите сундук
+                    if 'treasure_chest' in current_room['items']:
+                        current_room['items'].remove('treasure_chest')
+                    # Объявите о победе
+                    print("В сундуке сокровище! Вы победили!")
+                    # Установите game_over в True
+                    game_state['game_over'] = True
+                else:
+                    # Если код неверный, сообщите об ошибке
+                    print("❌ Неверный код. Сундук остается запертым.")
+            else:
+                print("Здесь нет загадки с кодом.")
+        else:
+            # Если игрок изначально отказался вводить код
+            print("Вы отступаете от сундука.")

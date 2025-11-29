@@ -45,7 +45,12 @@ def process_command(game_state, command):
                 print("Укажите предмет: use <предмет>")
         
         case 'solve':
-            utils.solve_puzzle(game_state)
+            # Если игрок в комнате с сокровищами, вызываем attempt_open_treasure
+            if game_state['current_room'] == 'treasure_room':
+                utils.attempt_open_treasure(game_state)
+            else:
+                # В остальных комнатах решаем обычные загадки
+                utils.solve_puzzle(game_state)
         
         case 'inventory':
             player_actions.show_inventory(game_state)
@@ -81,7 +86,7 @@ def main():
     print("  go <направление> - пойти в направлении")
     print("  take <предмет> - подобрать предмет")
     print("  use <предмет> - использовать предмет")
-    print("  solve - решить загадку")
+    print("  solve - решить загадку/открыть сундук")
     print("  quit - выйти из игры")
     print("  help - показать справку")
     

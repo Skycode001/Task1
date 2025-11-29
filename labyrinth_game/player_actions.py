@@ -72,6 +72,11 @@ def take_item(game_state, item_name):
         game_state (dict): Словарь с состоянием игры
         item_name (str): Название предмета для взятия
     """
+    # Если игрок пытается поднять или взять в инвентарь 'treasure_chest'
+    if item_name == 'treasure_chest':
+        print("Вы не можете поднять сундук, он слишком тяжелый.")
+        return
+    
     current_room = game_state['current_room']
     room_data = constants.ROOMS[current_room]
     
