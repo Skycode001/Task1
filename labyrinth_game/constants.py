@@ -56,7 +56,7 @@ ROOMS = {
             'рядом — небольшая бронзовая шкатулка.'
         ),
         'exits': {'south': 'library'},
-        'items': ['sword', 'bronze_box'],
+        'items': ['sword', 'bronze_box', 'treasure_key'],
         'puzzle': None
     },
     'treasure_room': {
