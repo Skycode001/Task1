@@ -5,6 +5,50 @@ import player_actions
 import utils
 
 
+def process_command(game_state, command):
+    """
+    Обрабатывает команду, введенную пользователем.
+    
+    Args:
+        game_state (dict): Словарь с состоянием игры
+        command (str): Команда, введенная пользователем
+    """
+    # Разделяем строку на части, чтобы отделить команду от аргумента
+    parts = command.split()
+    if not parts:
+        return
+    
+    action = parts[0]
+    argument = parts[1] if len(parts) > 1 else None
+    
+    # Используем match / case для определения команды
+    match action:
+        case 'look':
+            utils.describe_current_room(game_state)
+        
+        case 'go':
+            if argument:
+                player_actions.move_player(game_state, argument)
+            else:
+                print("Укажите направление: go <направление>")
+        
+        case 'take':
+            if argument:
+                player_actions.take_item(game_state, argument)
+            else:
+                print("Укажите предмет: take <предмет>")
+        
+        case 'inventory':
+            player_actions.show_inventory(game_state)
+        
+        case 'quit' | 'exit':
+            print("Спасибо за игру! До свидания!")
+            game_state['game_over'] = True
+        
+        case _:
+            print(f"Неизвестная команда: '{command}'. Введите 'help' для справки.")
+
+
 def main():
     """Основная функция игры Лабиринт сокровищ."""
     # Приветственное сообщение
@@ -35,36 +79,8 @@ def main():
         # Считывание команды от пользователя с помощью новой функции
         command = player_actions.get_input("\nВведите команду: ")
         
-        # Обработка команды quit для выхода
-        if command == 'quit':
-            print("Спасибо за игру! До свидания!")
-            break
-        
-        # Обработка команды движения
-        if command.startswith('go '):
-            direction = command[3:].strip()
-            player_actions.move_player(game_state, direction)
-        
-        # Обработка команды взятия предмета
-        elif command.startswith('take '):
-            item_name = command[5:].strip()
-            player_actions.take_item(game_state, item_name)
-        
-        # Обработка других команд
-        elif command == 'inventory':
-            player_actions.show_inventory(game_state)
-        elif command == 'look':
-            utils.describe_current_room(game_state)
-        elif command == 'help':
-            print("\n💡 Доступные команды:")
-            print("  look - осмотреться")
-            print("  inventory - показать инвентарь")
-            print("  go <направление> - пойти в направлении")
-            print("  take <предмет> - подобрать предмет")
-            print("  quit - выйти из игры")
-            print("  help - показать эту справку")
-        else:
-            print(f"Неизвестная команда: '{command}'. Введите 'help' для справки.")
+        # Обработка команды через process_command
+        process_command(game_state, command)
 
 
 if __name__ == "__main__":
