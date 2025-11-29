@@ -198,3 +198,41 @@ def pseudo_random(seed, modulo):
     
     # Отбросьте дробную часть и верните целое число
     return math.floor(scaled_value)
+
+
+def trigger_trap(game_state):
+    """
+    Имитирует срабатывание ловушки с негативными последствиями для игрока.
+    
+    Args:
+        game_state (dict): Словарь с состоянием игры
+    """
+    # Выведите сообщение, что ловушка активирована
+    print("Ловушка активирована! Пол стал дрожать...")
+    
+    # Проверьте, есть ли у игрока предметы в инвентаре
+    if game_state['player_inventory']:
+        # Если инвентарь не пуст, используйте функцию pseudo_random()
+        # чтобы выбрать случайный индекс предмета в инвентаре
+        item_count = len(game_state['player_inventory'])
+        random_index = pseudo_random(game_state['steps_taken'], item_count)
+        
+        # Удалите этот предмет
+        lost_item = game_state['player_inventory'].pop(random_index)
+        
+        # Сообщите игроку, какой именно предмет он потерял
+        print(f"Вы потеряли предмет: {lost_item}")
+    else:
+        # Если инвентарь пуст, игрок получает "урон"
+        # Используйте pseudo_random(), чтобы сгенерировать число (например, от 0 до 9)
+        damage_roll = pseudo_random(game_state['steps_taken'], 10)
+        
+        # Если число меньше определенного порога (3), игра заканчивается
+        if damage_roll < 3:
+            # Выведите сообщение о поражении
+            print("Ловушка наносит смертельный удар! Вы проиграли.")
+            # Установите game_over в True
+            game_state['game_over'] = True
+        else:
+            # В противном случае выведите сообщение, что игрок уцелел
+            print("Вам удалось увернуться от ловушки!")
