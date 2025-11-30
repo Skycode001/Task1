@@ -129,3 +129,10 @@ COMMANDS = {
 GAME_TITLE = "Лабиринт Сокровищ"
 START_ROOM = 'entrance'
 WIN_CONDITION = 'treasure_chest'
+
+# Дополнительные игровые константы
+EVENT_PROBABILITY = 10
+EVENT_TYPES_COUNT = 3
+TRAP_DAMAGE_THRESHOLD = 3
+TRAP_CHANCE_MODULO = 100
+TRAP_ACTIVATION_CHANCE = 15

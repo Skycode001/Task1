@@ -71,8 +71,11 @@ def move_player(game_state, direction):
                 utils.describe_current_room(game_state)
                 
                 # 🔥 ИНТЕГРАЦИЯ ЛОВУШЕК
-                trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
-                if trap_chance < 15:
+                trap_chance = utils.pseudo_random(
+                    game_state['steps_taken'], 
+                    constants.TRAP_CHANCE_MODULO
+                )
+                if trap_chance < constants.TRAP_ACTIVATION_CHANCE:
                     print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
                     game_state['traps_triggered'] += 1
                     utils.trigger_trap(game_state)
@@ -91,8 +94,11 @@ def move_player(game_state, direction):
             utils.describe_current_room(game_state)
             
             # 🔥 ИНТЕГРАЦИЯ ЛОВУШЕК
-            trap_chance = utils.pseudo_random(game_state['steps_taken'], 100)
-            if trap_chance < 15:
+            trap_chance = utils.pseudo_random(
+                game_state['steps_taken'],
+                constants.TRAP_CHANCE_MODULO
+            )
+            if trap_chance < constants.TRAP_ACTIVATION_CHANCE:
                 print("\n⚡️ ВНИМАНИЕ: При перемещении что-то щелкнуло...")
                 game_state['traps_triggered'] += 1
                 utils.trigger_trap(game_state)

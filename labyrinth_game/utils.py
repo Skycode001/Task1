@@ -264,10 +264,10 @@ def trigger_trap(game_state):
         # Используйте pseudo_random(), чтобы сгенерировать число (например, от 0 до 9)
         # Используем комбинацию для большей случайности
         trap_seed = game_state['steps_taken'] + game_state['traps_triggered']
-        damage_roll = pseudo_random(trap_seed, 10)
+        damage_roll = pseudo_random(trap_seed, constants.EVENT_PROBABILITY)
         
         # Если число меньше определенного порога (3), игра заканчивается
-        if damage_roll < 3:
+        if damage_roll < constants.TRAP_DAMAGE_THRESHOLD:
             # Выведите сообщение о поражении
             print("Ловушка наносит смертельный удар! Вы проиграли.")
             # Установите game_over в True
@@ -286,13 +286,16 @@ def random_event(game_state):
     # Сначала определите, произойдет ли событие вообще
     # Используйте pseudo_random() с modulo (например, 10), 
     # чтобы событие происходило с низкой вероятностью
-    event_chance = pseudo_random(game_state['steps_taken'], 10)
+    event_chance = pseudo_random(game_state['steps_taken'], constants.EVENT_PROBABILITY)
     
     # Если результат равен 0, событие происходит
     if event_chance == 0:
         # Используйте pseudo_random() еще раз, чтобы выбрать, 
         # какое именно из нескольких событий случится
-        event_type = pseudo_random(game_state['steps_taken'] + 1, 3)
+        event_type = event_type = pseudo_random(
+            game_state['steps_taken'] + 1, 
+            constants.EVENT_TYPES_COUNT
+        )
         
         # Сценарии:
         match event_type:
