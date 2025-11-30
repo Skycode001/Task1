@@ -3,10 +3,17 @@ name = "project1_БорисовВ"
 version = "0.1.0"
 description = "Текстовая adventure игра Лабиринт сокровищ"
 authors = ["ViktorB"]
+readme = "README.md"
 
 packages = [
     { include = "labyrinth_game" },
 ]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.0"
 
 [tool.poetry.scripts]
 project = "labyrinth_game.main:main"
