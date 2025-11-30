@@ -57,3 +57,4 @@ make install
 # Или через poetry
 poetry install
 ```
+
