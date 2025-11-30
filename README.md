@@ -41,6 +41,9 @@
 - Git - контроль версий
 - Make - автоматизация задач
 
+## Asciinema
+[![asciicast](https://asciinema.org/a/e7O66P07X9Qy32LpPuKbm4Ajm.svg)](https://asciinema.org/a/e7O66P07X9Qy32LpPuKbm4Ajm)
+
 ### Установка:
 
 ```bash
