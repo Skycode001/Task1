@@ -25,3 +25,6 @@ Thumbs.db
 
 # Файлы окружения
 .env*.cast
+
+# ruff
+.ruff_cache/
